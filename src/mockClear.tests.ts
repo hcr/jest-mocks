@@ -1,4 +1,4 @@
-import { Class } from './Class';
+import { Klass } from './Klass';
 
 /**
  * mockFn.mockClear()
@@ -46,7 +46,7 @@ describe('mockClear', () => {
   });
 
   it('retains a spy as a mock', () => {
-    const klass = new Class();
+    const klass = new Klass();
     jest.spyOn(klass, 'originalMethod');
     expect(klass.originalMethod()).toBe('original');
     expect((klass.originalMethod as jest.Mock).mock).not.toBe(undefined); // the method is a mock

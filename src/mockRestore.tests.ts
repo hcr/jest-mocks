@@ -1,4 +1,4 @@
-import { Class } from './Class';
+import { Klass } from './Klass';
 
 /**
  * mockFn.mockRestore()
@@ -41,7 +41,7 @@ describe('mockRestore', () => {
   });
 
   it('restores the initial implementation of a spy', () => {
-    const klass = new Class();
+    const klass = new Klass();
     jest.spyOn(klass, 'originalMethod');
     expect(klass.originalMethod()).toBe('original');
     expect((klass.originalMethod as jest.Mock).mock).not.toBe(undefined); // the method is a mock

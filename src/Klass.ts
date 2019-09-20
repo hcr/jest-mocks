@@ -1,4 +1,4 @@
-export class Class {
+export class Klass {
   originalMethod() {
     return 'original';
   }
