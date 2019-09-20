@@ -1,5 +1,13 @@
 import { Class } from './Class';
 
+/**
+ * mockFn.mockClear()
+ * Resets all information stored in the mockFn.mock.calls and mockFn.mock.instances arrays.
+ * Often this is useful when you want to clean up a mock's usage data between two assertions.
+ * Beware that mockClear will replace mockFn.mock, not just mockFn.mock.calls and mockFn.mock.instances. You should therefore avoid assigning mockFn.mock to other variables, temporary or not, to make sure you don't access stale data.
+ * The clearMocks configuration option is available to clear mocks automatically between tests.
+ */
+
 describe('mockClear', () => {
   it('removes interactions with the mock', () => {
     const mockedFunction = jest.fn();
@@ -12,8 +20,8 @@ describe('mockClear', () => {
     expect(mockedFunction.mock).toBe(originalMockObject);
 
     mockedFunction.mockClear();
-    expect(mockedFunction.mock.calls).toEqual([]);
-    expect(mockedFunction.mock).not.toBe(originalMockObject);
+    expect(mockedFunction.mock.calls).toEqual([]); // the previous calls to the mock are gone
+    expect(mockedFunction.mock).not.toBe(originalMockObject); // the mock object has been replaced
   });
 
   it('does not change behaviour of the mock', () => {
@@ -25,15 +33,15 @@ describe('mockClear', () => {
     expect(mockedFunction()).toBe('new value');
 
     mockedFunction.mockClear();
-    expect(mockedFunction()).toBe('new value');
+    expect(mockedFunction()).toBe('new value'); // mockClear has not removed the mocked implementation
 
     mockedFunction.mockReturnValueOnce('even newer value');
     expect(mockedFunction()).toBe('even newer value');
-    expect(mockedFunction()).toBe('new value');
+    expect(mockedFunction()).toBe('new value'); // mockClear has not removed the mocked implementation
 
     mockedFunction.mockReturnValueOnce('even newer value');
     mockedFunction.mockClear();
-    expect(mockedFunction()).toBe('even newer value');
+    expect(mockedFunction()).toBe('even newer value'); // mockClear has not removed the mocked implementation
     expect(mockedFunction()).toBe('new value');
   });
 

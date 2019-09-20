@@ -1,6 +1,13 @@
 import { Class } from './Class';
 
-describe('mockClear', () => {
+/**
+ * mockFn.mockReset()
+ * Does everything that mockFn.mockClear() does, and also removes any mocked return values or implementations.
+ * This is useful when you want to completely reset a mock back to its initial state. (Note that resetting a spy will result in a function with no return value).
+ * Beware that mockReset will replace mockFn.mock, not just mockFn.mock.calls and mockFn.mock.instances. You should therefore avoid assigning mockFn.mock to other variables, temporary or not, to make sure you don't access stale data.
+ */
+
+describe('mockReset', () => {
   it('removes interactions with the mock', () => {
     const mockedFunction = jest.fn();
     const originalMockObject = mockedFunction.mock;
@@ -12,8 +19,8 @@ describe('mockClear', () => {
     expect(mockedFunction.mock).toBe(originalMockObject);
 
     mockedFunction.mockReset();
-    expect(mockedFunction.mock.calls).toEqual([]);
-    expect(mockedFunction.mock).not.toBe(originalMockObject);
+    expect(mockedFunction.mock.calls).toEqual([]); // the previous calls to the mock are gone
+    expect(mockedFunction.mock).not.toBe(originalMockObject); // the mock object has been replaced
   });
 
   it('removes behaviour of the mock', () => {
@@ -25,7 +32,7 @@ describe('mockClear', () => {
     expect(mockedFunction()).toBe('new value');
 
     mockedFunction.mockReset();
-    expect(mockedFunction()).toBe(undefined);
+    expect(mockedFunction()).toBe(undefined); // mockReset has removed the mocked implementation
 
     mockedFunction.mockReturnValueOnce('even newer value');
     expect(mockedFunction()).toBe('even newer value');
